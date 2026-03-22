@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>고교생 과학 탐구 사이트 모음</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1611;
+      --ink-mid: #3d3529;
+      --ink-light: #7a6e60;
+      --paper: #f5f0e8;
+      --paper-dark: #ede7d8;
+      --paper-darker: #e0d9c8;
+      --accent: #8b1a1a;
+      --accent-light: #c0392b;
+      --rule: #b8a990;
+      --tag-bg: #2c2419;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Noto Sans KR', sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── 배경 질감 ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(139,110,80,0.07) 28px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── 헤더 ── */
+    header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 3px double var(--rule);
+      padding: 0 2rem;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--rule);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--ink-light);
+      letter-spacing: 0.05em;
+    }
+
+    .header-main {
+      text-align: center;
+      padding: 2.2rem 0 1.6rem;
+    }
+
+    .masthead-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 0.7rem;
+    }
+
+    h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 2px;
+    }
+
+    .subtitle {
+      margin-top: 0.8rem;
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+
+    .header-rule {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.6rem 0 0;
+    }
+    .header-rule span { flex: 1; height: 1px; background: var(--rule); }
+    .header-rule small {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--ink-light);
+      white-space: nowrap;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── 필터 탭 ── */
+    .filter-bar {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      padding: 1.4rem 2rem;
+      border-bottom: 1px solid var(--rule);
+      background: var(--paper-dark);
+    }
+
+    .filter-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      padding: 0.35rem 1rem;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink-mid);
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--tag-bg);
+      color: var(--paper);
+      border-color: var(--tag-bg);
+    }
+
+    /* ── 메인 그리드 ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 4rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .section-head h2 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .section-head .count {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--ink-light);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ── 카드 ── */
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 1.4rem 1.5rem 1.5rem;
+      position: relative;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 4px 6px 0 var(--paper-darker), 4px 6px 0 1px var(--rule);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      padding: 0.18rem 0.6rem;
+      background: var(--tag-bg);
+      color: var(--paper);
+    }
+
+    .tag.secondary {
+      background: transparent;
+      color: var(--ink-light);
+      border: 1px solid var(--rule);
+    }
+
+    .card h3 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      color: var(--ink);
+    }
+
+    .card .org {
+      font-size: 0.75rem;
+      color: var(--ink-light);
+      margin-bottom: 0.7rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .card p {
+      font-size: 0.84rem;
+      color: var(--ink-mid);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .tip-box {
+      background: var(--paper-dark);
+      border-left: 3px solid var(--accent);
+      padding: 0.6rem 0.8rem;
+      font-size: 0.79rem;
+      color: var(--ink-mid);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .tip-box strong {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.2rem;
+      letter-spacing: 0.08em;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 1px;
+      transition: color 0.15s;
+    }
+    .card-link:hover { color: var(--ink); }
+    .card-link svg { width: 12px; height: 12px; }
+
+    /* ── 팁 섹션 ── */
+    .workflow {
+      border: 1px solid var(--rule);
+      background: var(--paper-dark);
+      padding: 1.8rem 2rem;
+      margin-top: 1rem;
+    }
+
+    .workflow h3 {
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      color: var(--ink);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .step {
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--accent);
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-text strong {
+      display: block;
+      font-size: 0.84rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .step-text span {
+      font-size: 0.78rem;
+      color: var(--ink-light);
+    }
+
+    /* ── 푸터 ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 3px double var(--rule);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--ink-light);
+      letter-spacing: 0.06em;
+      background: var(--paper-dark);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card.hidden { display: none; }
+
+    @media (max-width: 600px) {
+      header, main { padding-left: 1rem; padding-right: 1rem; }
+      h1 { font-size: 1.6rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+
+  <div class="header-main">
+    <p class="masthead-label">고교생 과학 탐구 사이트 모음</p>
+    <h1>과학 탐구 <em>사이트</em> 가이드</h1>
+    <p class="subtitle">세특·생기부 소재 발굴을 위한 신뢰할 수 있는 뉴스·칼럼·자료 사이트 선별 정리</p>
+    <div class="header-rule">
+      <span></span>
+      <small>IT·AI · 생명과학 · 우주·물리 · 환경·기후</small>
+      <span></span>
+    </div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">전체 보기</button>
+  <button class="filter-btn" data-filter="general">종합·범용</button>
+  <button class="filter-btn" data-filter="it">IT·AI</button>
+  <button class="filter-btn" data-filter="bio">생명과학·바이오</button>
+  <button class="filter-btn" data-filter="space">우주·물리</button>
+  <button class="filter-btn" data-filter="env">환경·기후</button>
+</div>
+
+<main>
+
+  <!-- 종합·범용 -->
+  <div class="section-head">
+    <h2>📰 종합·범용 — 세특 첫 탐색에 추천</h2>
+    <span class="count">5개 사이트</span>
+  </div>
+  <div class="grid" id="grid-general">
+
+    <div class="card" data-cat="general">
+      <div class="card-meta">
+        <span class="tag">종합</span>
+        <span class="tag secondary">고교생 눈높이</span>
+      </div>
+      <h3>생글생글</h3>
+      <p class="org">한국경제신문</p>
+      <p>경제·과학·사회 이슈를 고교생 수준에 맞게 풀어 쓴 주간지 형태 사이트. 논술·세특 연계 칼럼이 풍부하고 심층 분석 글이 많다.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        '과학기술' 카테고리에서 키워드 검색 → 원하는 주제 기사 저장 → 탐구 질문으로 발전시키기
+      </div>
+      <a class="card-link" href="https://sgsg.hankyung.com" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+    <div class="card" data-cat="general">
+      <div class="card-meta">
+        <span class="tag">종합</span>
+        <span class="tag secondary">심층 분석</span>
+      </div>
+      <h3>동아사이언스</h3>
+      <p class="org">동아일보 (과학동아 온라인판)</p>
+      <p>IT·AI·우주·바이오 전 분야를 커버하는 과학 전문 미디어. 기사 퀄리티가 높고 분야별 아카이브가 잘 정리되어 있어 세특 배경 지식 쌓기에 최적.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        분야 탭(IT·과학) 선택 후 최신순 정렬 → 관심 키워드로 검색 → 참고문헌으로 활용
+      </div>
+      <a class="card-link" href="https://www.dongascience.com" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+    <div class="card" data-cat="general">
+      <div class="card-meta">
+        <span class="tag">종합</span>
+        <span class="tag secondary">국가기관</span>
+      </div>
+      <h3>KISTI 과학향기</h3>
+      <p class="org">한국과학기술정보연구원</p>
+      <p>국가 과학기술정보원에서 운영하는 검증된 과학 콘텐츠. 주제별 아카이브가 잘 구성되어 있어 배경 지식 보완용으로 신뢰도가 높다.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        동아사이언스에서 주제 선정 → 여기서 해당 주제 배경 지식 보완 → 탐구 깊이 더하기
+      </div>
+      <a class="card-link" href="https://scent.kisti.re.kr" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+    <div class="card" data-cat="general">
+      <div class="card-meta">
+        <span class="tag">종합</span>
+        <span class="tag secondary">교과 연계</span>
+      </div>
+      <h3>사이언스올</h3>
+      <p class="org">교육부·KOFAC 운영</p>
+      <p>교육부와 한국과학창의재단이 운영하는 과학문화포털. 교과 연계 탐구주제와 연결이 쉽고 학생 대상 콘텐츠가 체계적으로 분류되어 있다.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        '탐구학습' 메뉴 → 학년·분야별 필터 → 생기부에 쓸 탐구 주제 아이디어 얻기
+      </div>
+      <a class="card-link" href="https://www.scienceall.com" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+    <div class="card" data-cat="general">
+      <div class="card-meta">
+        <span class="tag">종합</span>
+        <span class="tag secondary">뉴스 빅데이터</span>
+      </div>
+      <h3>빅카인즈 (BIGKinds)</h3>
+      <p class="org">한국언론진흥재단</p>
+      <p>60여 개 언론사 기사를 한 번에 교차 검색할 수 있는 뉴스 빅데이터 플랫폼. 키워드·기간·언론사 필터링으로 세특 탐구 배경 자료 수집에 탁월.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        키워드 입력 + 기간 설정(예: 2024~2025) → 언론사 복수 선택 → 다양한 시각 비교 후 탐구 질문 설계
+      </div>
+      <a class="card-link" href="https://www.bigkinds.or.kr" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- IT·AI -->
+  <div class="section-head">
+    <h2>💻 IT · AI · 컴퓨터과학</h2>
+    <span class="count">2개 사이트</span>
+  </div>
+  <div class="grid" id="grid-it">
+
+    <div class="card" data-cat="it">
+      <div class="card-meta">
+        <span class="tag">IT·AI</span>
+        <span class="tag secondary">국내 전문지</span>
+      </div>
+      <h3>AI타임스</h3>
+      <p class="org">AI타임스</p>
+      <p>국내 AI 산업·연구 이슈를 빠르게 캐치할 수 있는 전문 미디어. 추천 알고리즘, 컴퓨터 비전, LLM 등 최신 동향 기사가 풍부하다.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        "추천 알고리즘", "컴퓨터 비전", "AI 윤리" 키워드 검색 → 세특 배경 설명용 최신 동향 확보
+      </div>
+      <a class="card-link" href="https://www.aitimes.com" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+    <div class="card" data-cat="it">
+      <div class="card-meta">
+        <span class="tag">IT·AI</span>
+        <span class="tag secondary">IT 전문지</span>
+      </div>
+      <h3>전자신문 (etnews)</h3>
+      <p class="org">전자신문</p>
+      <p>IT 산업 전반의 트렌드 흐름을 잡기 좋은 국내 최대 IT 전문지. 반도체·소프트웨어·스타트업 등 다양한 IT 분야를 폭넓게 다룬다.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        산업 동향 파악용으로 활용 → 기술 사회적 영향 탐구 시 참고문헌으로 인용
+      </div>
+      <a class="card-link" href="https://www.etnews.com" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- 생명과학 -->
+  <div class="section-head">
+    <h2>🧬 생명과학 · 바이오</h2>
+    <span class="count">2개 사이트</span>
+  </div>
+  <div class="grid" id="grid-bio">
+
+    <div class="card" data-cat="bio">
+      <div class="card-meta">
+        <span class="tag">바이오</span>
+        <span class="tag secondary">R&D 전문</span>
+      </div>
+      <h3>바이오스펙테이터</h3>
+      <p class="org">바이오스펙테이터</p>
+      <p>국내 바이오·제약 R&D 이슈를 전문으로 다루는 미디어. 신약 개발, 유전자 치료, 의생명 연구 최신 소식을 빠르게 파악할 수 있다.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        관심 질환명 또는 기술명 검색 → 최신 임상 연구 동향 파악 → 생명과학 세특 소재로 활용
+      </div>
+      <a class="card-link" href="https://www.biospectator.com" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+    <div class="card" data-cat="bio">
+      <div class="card-meta">
+        <span class="tag">바이오</span>
+        <span class="tag secondary">의생명</span>
+      </div>
+      <h3>사이언스온</h3>
+      <p class="org">한겨레신문</p>
+      <p>과학 전문 칼럼·뉴스를 다루는 한겨레의 과학 채널. IT·생명·환경 분야의 심층 분석 글이 많고 과학자 인터뷰도 풍부하다.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        '생명과학' 카테고리 → 최신 연구 기사 읽기 → 탐구 주제의 사회적 의의 서술에 활용
+      </div>
+      <a class="card-link" href="https://scienceon.hani.co.kr" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- 우주·물리 -->
+  <div class="section-head">
+    <h2>🔭 우주 · 물리 · 천문</h2>
+    <span class="count">2개 사이트</span>
+  </div>
+  <div class="grid" id="grid-space">
+
+    <div class="card" data-cat="space">
+      <div class="card-meta">
+        <span class="tag">우주</span>
+        <span class="tag secondary">영상+글</span>
+      </div>
+      <h3>YTN 사이언스</h3>
+      <p class="org">YTN</p>
+      <p>영상과 글을 함께 제공하는 과학 전문 채널. 우주·물리·천문 관련 시각 자료가 풍부해 개념 이해에 도움이 되고 요약 정리도 쉽다.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        키워드 검색 후 영상 시청 → 동일 주제 기사 텍스트 확인 → 세특 요약문 작성 시 참고
+      </div>
+      <a class="card-link" href="https://science.ytn.co.kr" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+    <div class="card" data-cat="space">
+      <div class="card-meta">
+        <span class="tag">우주</span>
+        <span class="tag secondary">글로벌 원문</span>
+      </div>
+      <h3>NASA News / ESA News</h3>
+      <p class="org">NASA · ESA (유럽우주국)</p>
+      <p>세계 최고 권위의 우주 기관 공식 뉴스 채널. 최신 우주 탐사·천문 발견 소식을 원문으로 확인할 수 있어 영어 원문 인용이 필요한 탐구에 유용.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        NASA: nasa.gov/news / ESA: esa.int/newsroom → 최신 발표 확인 → 번역 후 세특에 인용
+      </div>
+      <a class="card-link" href="https://www.nasa.gov/news" target="_blank" rel="noopener">
+        NASA 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- 환경·기후 -->
+  <div class="section-head">
+    <h2>🌍 환경 · 기후 · 지구과학</h2>
+    <span class="count">1개 사이트</span>
+  </div>
+  <div class="grid" id="grid-env">
+
+    <div class="card" data-cat="env">
+      <div class="card-meta">
+        <span class="tag">환경</span>
+        <span class="tag secondary">기후위기</span>
+      </div>
+      <h3>동아사이언스 — 환경·기후</h3>
+      <p class="org">동아일보</p>
+      <p>환경·기후·지구과학 분야도 동아사이언스 내 카테고리로 정리가 잘 되어 있다. 기후위기, 탄소중립, 해양 오염 등 시의성 있는 탐구 주제를 찾기 좋다.</p>
+      <div class="tip-box">
+        <strong>💡 사용 팁</strong>
+        상단 검색창에서 '기후변화', '탄소중립', '해양오염' 등 키워드 검색 → 과학적 근거 있는 세특 주제 발굴
+      </div>
+      <a class="card-link" href="https://www.dongascience.com" target="_blank" rel="noopener">
+        사이트 바로가기
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg>
+      </a>
+    </div>
+
+  </div>
+
+
+
+</main>
+
+<footer>
+  <p>CodeOn 정보탐구부 · 선정고등학교 · 세특·생기부 소재 발굴용 사이트 모음집</p>
+  <p style="margin-top:0.3rem; opacity:0.6;">링크는 외부 사이트로 연결됩니다 — 각 사이트의 정책에 따라 이용하세요.</p>
+</footer>
+
+<script>
+  const btns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.card');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.cat === filter) {
+          card.classList.remove('hidden');
+          card.style.animationName = 'none';
+          requestAnimationFrame(() => { card.style.animationName = ''; });
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
