@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>고교생 탐구 사이트 가이드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #1a1611; --ink-mid: #3d3529; --ink-light: #7a6e60;
+      --paper: #f5f0e8; --paper-dark: #ede7d8; --paper-darker: #e0d9c8;
+      --accent: #8b1a1a; --rule: #b8a990; --tag-bg: #2c2419;
+      --sci: #1a3a5c; --hum: #4a2010;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: 'Noto Sans KR', sans-serif; line-height: 1.7; min-height: 100vh; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(139,110,80,0.07) 28px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    /* ── 헤더 ── */
+    header { position: relative; z-index: 1; border-bottom: 3px double var(--rule); padding: 0 2rem; }
+    .header-main { text-align: center; padding: 2.2rem 0 1.6rem; }
+    .masthead-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.7rem; }
+    h1 { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: clamp(1.8rem, 5vw, 3.2rem); line-height: 1.15; color: var(--ink); letter-spacing: -0.02em; }
+    h1 em { font-style: normal; color: var(--accent); border-bottom: 3px solid var(--accent); padding-bottom: 2px; }
+    .subtitle { margin-top: 0.8rem; font-size: 0.88rem; color: var(--ink-light); font-style: italic; }
+    .header-rule { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0 0; }
+    .header-rule span { flex: 1; height: 1px; background: var(--rule); }
+    .header-rule small { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--ink-light); white-space: nowrap; letter-spacing: 0.08em; }
+
+    /* ── 대카테고리 탭 ── */
+    .domain-bar { position: relative; z-index: 1; display: flex; justify-content: center; background: var(--paper-darker); border-bottom: 2px solid var(--rule); }
+    .domain-btn { font-family: 'Noto Serif KR', serif; font-size: 0.9rem; font-weight: 700; padding: 0.9rem 2.5rem; border: none; border-right: 1px solid var(--rule); background: transparent; color: var(--ink-light); cursor: pointer; letter-spacing: 0.03em; transition: all 0.18s; position: relative; }
+    .domain-btn:last-child { border-right: none; }
+    .domain-btn:hover { color: var(--ink); background: var(--paper-dark); }
+    .domain-btn.active { color: var(--ink); background: var(--paper); }
+    .domain-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 3px; background: var(--tag-bg); }
+    .domain-btn[data-domain="science"].active::after { background: var(--sci); }
+    .domain-btn[data-domain="humanities"].active::after { background: var(--hum); }
+
+    /* ── 세부 필터 ── */
+    .filter-bar { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; padding: 1rem 2rem; border-bottom: 1px solid var(--rule); background: var(--paper-dark); min-height: 56px; align-items: center; }
+    .filter-btn { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; padding: 0.35rem 1rem; border: 1px solid var(--rule); background: transparent; color: var(--ink-mid); cursor: pointer; transition: all 0.18s; }
+    .filter-btn:hover, .filter-btn.active { background: var(--tag-bg); color: var(--paper); border-color: var(--tag-bg); }
+
+    /* ── 구분선 ── */
+    .domain-divider { display: flex; align-items: center; gap: 1rem; margin: 2.5rem 0 2rem; }
+    .domain-divider-line { flex: 1; height: 1px; background: var(--rule); }
+    .domain-divider-text { font-family: 'Noto Serif KR', serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.15em; padding: 0.3rem 1.2rem; border: 1px solid; white-space: nowrap; }
+    .domain-divider-text.sci { color: var(--sci); border-color: var(--sci); }
+    .domain-divider-text.hum { color: var(--hum); border-color: var(--hum); }
+
+    /* ── 메인 ── */
+    main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+    .section-block { margin-bottom: 2.5rem; }
+    .section-block.hidden { display: none; }
+
+    .section-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.2rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--ink); }
+    .section-head h2 { font-family: 'Noto Serif KR', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+    .section-head .count { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--ink-light); }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+
+    /* ── 카드 ── */
+    .card { background: var(--paper); border: 1px solid var(--rule); padding: 1.4rem 1.5rem 1.5rem; position: relative; transition: transform 0.18s, box-shadow 0.18s; animation: fadeUp 0.35s ease both; }
+    .card:hover { transform: translateY(-3px); box-shadow: 4px 6px 0 var(--paper-darker), 4px 6px 0 1px var(--rule); }
+    .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+    .card[data-domain="science"]::before { background: var(--sci); }
+    .card[data-domain="humanities"]::before { background: var(--hum); }
+
+    .card-meta { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.7rem; }
+    .tag { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; padding: 0.18rem 0.6rem; background: var(--tag-bg); color: var(--paper); }
+    .tag.sci { background: var(--sci); }
+    .tag.hum { background: var(--hum); }
+    .tag.secondary { background: transparent; color: var(--ink-light); border: 1px solid var(--rule); }
+
+    .card h3 { font-family: 'Noto Serif KR', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--ink); }
+    .card .org { font-size: 0.73rem; color: var(--ink-light); margin-bottom: 0.7rem; font-family: 'DM Mono', monospace; }
+    .card p { font-size: 0.83rem; color: var(--ink-mid); line-height: 1.65; margin-bottom: 1rem; }
+
+    .tip-box { background: var(--paper-dark); border-left: 3px solid var(--sci); padding: 0.6rem 0.8rem; font-size: 0.78rem; color: var(--ink-mid); margin-bottom: 1rem; line-height: 1.6; }
+    .card[data-domain="humanities"] .tip-box { border-left-color: var(--hum); }
+    .tip-box strong { font-family: 'DM Mono', monospace; font-size: 0.67rem; color: var(--sci); display: block; margin-bottom: 0.2rem; letter-spacing: 0.08em; }
+    .card[data-domain="humanities"] .tip-box strong { color: var(--hum); }
+
+    .card-link { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.06em; color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; transition: color 0.15s; }
+    .card-link:hover { color: var(--ink); }
+    .card-link svg { width: 12px; height: 12px; }
+
+    /* ── 푸터 ── */
+    footer { position: relative; z-index: 1; border-top: 3px double var(--rule); padding: 1.5rem 2rem; text-align: center; font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--ink-light); letter-spacing: 0.06em; background: var(--paper-dark); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) {
+      header, main { padding-left: 1rem; padding-right: 1rem; }
+      h1 { font-size: 1.6rem; }
+      .grid { grid-template-columns: 1fr; }
+      .domain-btn { padding: 0.8rem 1rem; font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-main">
+    <p class="masthead-label">세특 · 생기부 소재 발굴용 사이트 모음집</p>
+    <h1>고교생 <em>탐구</em> 사이트 가이드</h1>
+    <p class="subtitle">과학 · 인문 · 사회 전 분야를 아우르는 신뢰할 수 있는 뉴스 · 칼럼 · 자료 사이트 선별 정리</p>
+    <div class="header-rule">
+      <span></span>
+      <small>과학 · 기술 · 인문 · 사회 · 경제 · 심리</small>
+      <span></span>
+    </div>
+  </div>
+</header>
+
+<!-- 대카테고리 -->
+<div class="domain-bar">
+  <button class="domain-btn active" data-domain="all">전체 보기</button>
+  <button class="domain-btn" data-domain="science">🔬 과학 · 기술</button>
+  <button class="domain-btn" data-domain="humanities">📖 인문 · 사회</button>
+</div>
+
+<!-- 세부 필터 -->
+<div class="filter-bar" id="filter-bar"></div>
+
+<main>
+
+  <!-- ═══ 과학·기술 구분선 ═══ -->
+  <div class="domain-divider" id="divider-sci">
+    <div class="domain-label-line domain-divider-line"></div>
+    <span class="domain-divider-text sci">🔬 과학 · 기술 분야</span>
+    <div class="domain-label-line domain-divider-line"></div>
+  </div>
+
+  <!-- 종합·범용 -->
+  <div class="section-block" data-domain="science" data-cat="general">
+    <div class="section-head">
+      <h2>📰 종합·범용 — 세특 첫 탐색에 추천</h2>
+      <span class="count">5개 사이트</span>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-domain="science" data-cat="general">
+        <div class="card-meta"><span class="tag sci">종합</span><span class="tag secondary">고교생 눈높이</span></div>
+        <h3>생글생글</h3><p class="org">한국경제신문</p>
+        <p>경제·과학·사회 이슈를 고교생 수준에 맞게 풀어 쓴 주간지 형태 사이트. 논술·세특 연계 칼럼이 풍부하고 심층 분석 글이 많다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>'과학기술' 카테고리에서 키워드 검색 → 원하는 주제 기사 저장 → 탐구 질문으로 발전시키기</div>
+        <a class="card-link" href="https://sgsg.hankyung.com" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+      <div class="card" data-domain="science" data-cat="general">
+        <div class="card-meta"><span class="tag sci">종합</span><span class="tag secondary">심층 분석</span></div>
+        <h3>동아사이언스</h3><p class="org">동아일보 (과학동아 온라인판)</p>
+        <p>IT·AI·우주·바이오 전 분야를 커버하는 과학 전문 미디어. 기사 퀄리티가 높고 분야별 아카이브가 잘 정리되어 있어 세특 배경 지식 쌓기에 최적.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>분야 탭 선택 후 최신순 정렬 → 관심 키워드로 검색 → 참고문헌으로 활용</div>
+        <a class="card-link" href="https://www.dongascience.com" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+      <div class="card" data-domain="science" data-cat="general">
+        <div class="card-meta"><span class="tag sci">종합</span><span class="tag secondary">국가기관</span></div>
+        <h3>KISTI 과학향기</h3><p class="org">한국과학기술정보연구원</p>
+        <p>국가 과학기술정보원에서 운영하는 검증된 과학 콘텐츠. 주제별 아카이브가 잘 구성되어 있어 배경 지식 보완용으로 신뢰도가 높다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>동아사이언스에서 주제 선정 → 여기서 해당 주제 배경 지식 보완 → 탐구 깊이 더하기</div>
+        <a class="card-link" href="https://scent.kisti.re.kr" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+      <div class="card" data-domain="science" data-cat="general">
+        <div class="card-meta"><span class="tag sci">종합</span><span class="tag secondary">교과 연계</span></div>
+        <h3>사이언스올</h3><p class="org">교육부 · KOFAC 운영</p>
+        <p>교육부와 한국과학창의재단이 운영하는 과학문화포털. 교과 연계 탐구주제와 연결이 쉽고 학생 대상 콘텐츠가 체계적으로 분류되어 있다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>'탐구학습' 메뉴 → 학년·분야별 필터 → 생기부에 쓸 탐구 주제 아이디어 얻기</div>
+        <a class="card-link" href="https://www.scienceall.com" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+      <div class="card" data-domain="science" data-cat="general">
+        <div class="card-meta"><span class="tag sci">종합</span><span class="tag secondary">뉴스 빅데이터</span></div>
+        <h3>빅카인즈 (BIGKinds)</h3><p class="org">한국언론진흥재단</p>
+        <p>60여 개 언론사 기사를 한 번에 교차 검색할 수 있는 뉴스 빅데이터 플랫폼. 키워드·기간·언론사 필터링으로 세특 탐구 배경 자료 수집에 탁월.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>키워드 입력 + 기간 설정(예: 2024~2025) → 언론사 복수 선택 → 다양한 시각 비교 후 탐구 질문 설계</div>
+        <a class="card-link" href="https://www.bigkinds.or.kr" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- IT·AI -->
+  <div class="section-block" data-domain="science" data-cat="it">
+    <div class="section-head">
+      <h2>💻 IT · AI · 컴퓨터과학</h2>
+      <span class="count">2개 사이트</span>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-domain="science" data-cat="it">
+        <div class="card-meta"><span class="tag sci">IT·AI</span><span class="tag secondary">국내 전문지</span></div>
+        <h3>AI타임스</h3><p class="org">AI타임스</p>
+        <p>국내 AI 산업·연구 이슈를 빠르게 캐치할 수 있는 전문 미디어. 추천 알고리즘, 컴퓨터 비전, LLM 등 최신 동향 기사가 풍부하다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>"추천 알고리즘", "컴퓨터 비전", "AI 윤리" 키워드 검색 → 세특 배경 설명용 최신 동향 확보</div>
+        <a class="card-link" href="https://www.aitimes.com" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+      <div class="card" data-domain="science" data-cat="it">
+        <div class="card-meta"><span class="tag sci">IT·AI</span><span class="tag secondary">IT 전문지</span></div>
+        <h3>전자신문 (etnews)</h3><p class="org">전자신문</p>
+        <p>IT 산업 전반의 트렌드 흐름을 잡기 좋은 국내 최대 IT 전문지. 반도체·소프트웨어·스타트업 등 다양한 IT 분야를 폭넓게 다룬다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>산업 동향 파악용으로 활용 → 기술 사회적 영향 탐구 시 참고문헌으로 인용</div>
+        <a class="card-link" href="https://www.etnews.com" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 생명과학 -->
+  <div class="section-block" data-domain="science" data-cat="bio">
+    <div class="section-head">
+      <h2>🧬 생명과학 · 바이오</h2>
+      <span class="count">2개 사이트</span>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-domain="science" data-cat="bio">
+        <div class="card-meta"><span class="tag sci">바이오</span><span class="tag secondary">R&D 전문</span></div>
+        <h3>바이오스펙테이터</h3><p class="org">바이오스펙테이터</p>
+        <p>국내 바이오·제약 R&D 이슈를 전문으로 다루는 미디어. 신약 개발, 유전자 치료, 의생명 연구 최신 소식을 빠르게 파악할 수 있다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>관심 질환명 또는 기술명 검색 → 최신 임상 연구 동향 파악 → 생명과학 세특 소재로 활용</div>
+        <a class="card-link" href="https://www.biospectator.com" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+      <div class="card" data-domain="science" data-cat="bio">
+        <div class="card-meta"><span class="tag sci">바이오</span><span class="tag secondary">심층 칼럼</span></div>
+        <h3>사이언스온</h3><p class="org">한겨레신문</p>
+        <p>과학 전문 칼럼·뉴스를 다루는 한겨레의 과학 채널. IT·생명·환경 분야의 심층 분석 글이 많고 과학자 인터뷰도 풍부하다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>'생명과학' 카테고리 → 최신 연구 기사 읽기 → 탐구 주제의 사회적 의의 서술에 활용</div>
+        <a class="card-link" href="https://scienceon.hani.co.kr" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 우주·물리 -->
+  <div class="section-block" data-domain="science" data-cat="space">
+    <div class="section-head">
+      <h2>🔭 우주 · 물리 · 천문</h2>
+      <span class="count">2개 사이트</span>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-domain="science" data-cat="space">
+        <div class="card-meta"><span class="tag sci">우주</span><span class="tag secondary">영상+글</span></div>
+        <h3>YTN 사이언스</h3><p class="org">YTN</p>
+        <p>영상과 글을 함께 제공하는 과학 전문 채널. 우주·물리·천문 관련 시각 자료가 풍부해 개념 이해에 도움이 되고 요약 정리도 쉽다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>키워드 검색 후 영상 시청 → 동일 주제 기사 텍스트 확인 → 세특 요약문 작성 시 참고</div>
+        <a class="card-link" href="https://science.ytn.co.kr" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+      <div class="card" data-domain="science" data-cat="space">
+        <div class="card-meta"><span class="tag sci">우주</span><span class="tag secondary">글로벌 원문</span></div>
+        <h3>NASA News / ESA News</h3><p class="org">NASA · ESA (유럽우주국)</p>
+        <p>세계 최고 권위의 우주 기관 공식 뉴스 채널. 최신 우주 탐사·천문 발견 소식을 원문으로 확인할 수 있어 영어 원문 인용이 필요한 탐구에 유용.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>nasa.gov/news 또는 esa.int/newsroom → 최신 발표 확인 → 번역 후 세특에 인용</div>
+        <a class="card-link" href="https://www.nasa.gov/news" target="_blank" rel="noopener">NASA 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 환경·기후 -->
+  <div class="section-block" data-domain="science" data-cat="env">
+    <div class="section-head">
+      <h2>🌍 환경 · 기후 · 지구과학</h2>
+      <span class="count">1개 사이트</span>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-domain="science" data-cat="env">
+        <div class="card-meta"><span class="tag sci">환경</span><span class="tag secondary">기후위기</span></div>
+        <h3>동아사이언스 — 환경·기후</h3><p class="org">동아일보</p>
+        <p>환경·기후·지구과학 분야도 동아사이언스 내 카테고리로 정리가 잘 되어 있다. 기후위기, 탄소중립, 해양 오염 등 시의성 있는 탐구 주제를 찾기 좋다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>상단 검색창에서 '기후변화', '탄소중립', '해양오염' 등 키워드 검색 → 과학적 근거 있는 세특 주제 발굴</div>
+        <a class="card-link" href="https://www.dongascience.com" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ 인문·사회 구분선 ═══ -->
+  <div class="domain-divider" id="divider-hum">
+    <div class="domain-divider-line"></div>
+    <span class="domain-divider-text hum">📖 인문 · 사회 분야</span>
+    <div class="domain-divider-line"></div>
+  </div>
+
+  <!-- 사회·정치·법 -->
+  <div class="section-block" data-domain="humanities" data-cat="social">
+    <div class="section-head">
+      <h2>⚖️ 사회 · 정치 · 법</h2>
+      <span class="count">2개 사이트</span>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-domain="humanities" data-cat="social">
+        <div class="card-meta"><span class="tag hum">사회·정치</span><span class="tag secondary">찬반 토론</span></div>
+        <h3>생글생글 — 시사이슈 찬반토론</h3><p class="org">한국경제신문</p>
+        <p>사회·법·정치 현안을 찬반 양측 논리로 정리해주는 코너. 청소년 SNS 규제·반려동물 정책 등 시의성 있는 주제가 풍부하며 논술·세특 모두에 바로 활용 가능하다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>'시사이슈 찬반토론' 메뉴 → 관심 사회 이슈 선택 → 찬반 논리 정리 후 세특 탐구 질문으로 발전</div>
+        <a class="card-link" href="https://sgsg.hankyung.com/series/1509001006" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+      <div class="card" data-domain="humanities" data-cat="social">
+        <div class="card-meta"><span class="tag hum">사회·경제</span><span class="tag secondary">논설·오피니언</span></div>
+        <h3>경향신문 오피니언</h3><p class="org">경향신문</p>
+        <p>사회·정치·경제 현안에 대한 전문가 칼럼과 사설이 깊이 있게 실린다. 다양한 시각의 논설을 읽으며 탐구 주제의 쟁점 구도를 파악하는 데 적합하다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>오피니언 → 관심 분야 칼럼 읽기 → 찬반 시각 정리 후 세특 탐구의 '문제 제기' 파트에 활용</div>
+        <a class="card-link" href="https://www.khan.co.kr/opinion" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 경제·경영 -->
+  <div class="section-block" data-domain="humanities" data-cat="econ">
+    <div class="section-head">
+      <h2>📈 경제 · 경영</h2>
+      <span class="count">1개 사이트</span>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-domain="humanities" data-cat="econ">
+        <div class="card-meta"><span class="tag hum">경제</span><span class="tag secondary">국책 연구기관</span></div>
+        <h3>KDI 경제정보센터</h3><p class="org">한국개발연구원</p>
+        <p>국가 경제 싱크탱크인 KDI가 운영하는 경제교육 플랫폼. 탄소세·디지털 화폐·금융위기 등 교과서 개념을 현실 경제와 연결해 경제 세특에 최적이다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>'경제로 세상 읽기' 코너 → 관심 경제 이슈 선택 → 배경 개념 + 사회적 함의 함께 정리</div>
+        <a class="card-link" href="https://eiec.kdi.re.kr/material/pageoneList.do" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 역사·철학·윤리 -->
+  <div class="section-block" data-domain="humanities" data-cat="philo">
+    <div class="section-head">
+      <h2>🏛️ 역사 · 철학 · 윤리</h2>
+      <span class="count">1개 사이트</span>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-domain="humanities" data-cat="philo">
+        <div class="card-meta"><span class="tag hum">인문·철학</span><span class="tag secondary">문화체육관광부</span></div>
+        <h3>인문360°</h3><p class="org">문화체육관광부 · 한국출판문화산업진흥원</p>
+        <p>정부가 운영하는 인문 콘텐츠 플랫폼으로 철학·역사·윤리·문화 분야 칼럼과 인터뷰가 풍부하다. 인문학적 사유를 세특 서사로 연결하는 데 특히 유용하다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>주제 키워드 검색 → 전문가 칼럼 읽기 → 철학·윤리 세특 배경 서술에 인용</div>
+        <a class="card-link" href="https://inmun360.culture.go.kr" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 심리·교육 -->
+  <div class="section-block" data-domain="humanities" data-cat="psych">
+    <div class="section-head">
+      <h2>🧠 심리 · 교육</h2>
+      <span class="count">1개 사이트</span>
+    </div>
+    <div class="grid">
+
+      <div class="card" data-domain="humanities" data-cat="psych">
+        <div class="card-meta"><span class="tag hum">심리</span><span class="tag secondary">심리학 전문</span></div>
+        <h3>한국심리학신문</h3><p class="org">한국심리학신문사</p>
+        <p>심리학 연구·칼럼·사회 현상 분석을 전문으로 다루는 미디어. AI와 심리, 집단 트라우마, 범죄 심리 등 탐구 주제 연결이 쉬운 실용적인 콘텐츠가 많다.</p>
+        <div class="tip-box"><strong>💡 사용 팁</strong>관심 키워드(예: AI·청소년·중독) 검색 → 심리학 개념 + 사회 현상 연결 → 생활과 윤리·사회문화 세특 소재로 활용</div>
+        <a class="card-link" href="https://www.psytimes.co.kr" target="_blank" rel="noopener">사이트 바로가기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></a>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>세특·생기부 소재 발굴용 탐구 사이트 모음집 · 과학 · 인문 · 사회 전 분야</p>
+  <p style="margin-top:0.3rem; opacity:0.6;">링크는 외부 사이트로 연결됩니다 — 각 사이트의 정책에 따라 이용하세요.</p>
+</footer>
+
+<script>
+  const filterSets = {
+    all: [{ key: 'all', label: '전체 보기' }],
+    science: [
+      { key: 'sci-all', label: '과학 전체' },
+      { key: 'general', label: '종합·범용' },
+      { key: 'it',      label: 'IT·AI' },
+      { key: 'bio',     label: '생명과학·바이오' },
+      { key: 'space',   label: '우주·물리' },
+      { key: 'env',     label: '환경·기후' },
+    ],
+    humanities: [
+      { key: 'hum-all', label: '인문사회 전체' },
+      { key: 'social',  label: '사회·정치·법' },
+      { key: 'econ',    label: '경제·경영' },
+      { key: 'philo',   label: '역사·철학·윤리' },
+      { key: 'psych',   label: '심리·교육' },
+    ],
+  };
+
+  const domainBtns = document.querySelectorAll('.domain-btn');
+  const filterBar  = document.getElementById('filter-bar');
+  const sections   = document.querySelectorAll('.section-block');
+  const divSci     = document.getElementById('divider-sci');
+  const divHum     = document.getElementById('divider-hum');
+
+  function renderFilters(domain) {
+    filterBar.innerHTML = '';
+    filterSets[domain].forEach((f, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn' + (i === 0 ? ' active' : '');
+      btn.textContent = f.label;
+      btn.dataset.cat = f.key;
+      btn.addEventListener('click', () => {
+        filterBar.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+        applyVisibility(domain, f.key);
+      });
+      filterBar.appendChild(btn);
+    });
+  }
+
+  function applyVisibility(domain, catKey) {
+    // 구분선 표시 제어
+    divSci.style.display = (domain === 'all' || domain === 'science') ? '' : 'none';
+    divHum.style.display = (domain === 'all' || domain === 'humanities') ? '' : 'none';
+
+    sections.forEach(sec => {
+      const sd = sec.dataset.domain;
+      const sc = sec.dataset.cat;
+      let show = false;
+
+      if (domain === 'all') {
+        show = true;
+      } else if (domain === 'science') {
+        show = catKey === 'sci-all' ? sd === 'science' : (sd === 'science' && sc === catKey);
+      } else if (domain === 'humanities') {
+        show = catKey === 'hum-all' ? sd === 'humanities' : (sd === 'humanities' && sc === catKey);
+      }
+
+      sec.classList.toggle('hidden', !show);
+      if (show) {
+        sec.querySelectorAll('.card').forEach((c, i) => {
+          c.style.animationDelay = (i * 0.05) + 's';
+          c.style.animationName = 'none';
+          requestAnimationFrame(() => { c.style.animationName = ''; });
+        });
+      }
+    });
+  }
+
+  domainBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      domainBtns.forEach(b => b.classList.toggle('active', b === btn));
+      const domain = btn.dataset.domain;
+      renderFilters(domain);
+      applyVisibility(domain, filterSets[domain][0].key);
+    });
+  });
+
+  // 초기화
+  renderFilters('all');
+  applyVisibility('all', 'all');
+</script>
+
+</body>
+</html>
